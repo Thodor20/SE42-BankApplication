@@ -5,6 +5,8 @@
  */
 package util;
 
+import bank.dao.AccountDAO;
+import bank.dao.AccountDAOJPAImpl;
 import bank.domain.Account;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -46,12 +48,16 @@ public class AccountTest {
         Account account = new Account(111L);
         em.getTransaction().begin();
         em.persist(account);
-        //TODO: verklaar en pas eventueel aan
+        //verklaar en pas eventueel aan
+        //Het is null omdat het nog niet gecommit is.
         assertNull(account.getId());
         em.getTransaction().commit();
         System.out.println("AccountId: " + account.getId());
         //TODO: verklaar en pas eventueel aan
+        //Het is nu gecommit dus kunnen wel een id ophalen. 
+        //Het id dat we gezet hebben is groter dan 0.
         assertTrue(account.getId() > 0L);
+        assertEquals(account.getId(), 111L, 0);
     }
 
     @Test
@@ -61,7 +67,12 @@ public class AccountTest {
         em.persist(account);
         assertNull(account.getId());
         em.getTransaction().rollback();
+        
         // TODO code om te testen dat table account geen records bevat. Hint: bestudeer/gebruik AccountDAOJPAImpl
+        AccountDAO dAO = new AccountDAOJPAImpl(em);
+        
+        assertTrue(dAO.count() == 0);
+        
     }
 
     @Test
@@ -72,10 +83,10 @@ public class AccountTest {
         em.getTransaction().begin();
         em.persist(account);
         //TODO: verklaar en pas eventueel aan
-        //assertNotEquals(expected, account.getId();
+        assertNotEquals(expected, account.getId());
         em.flush();
         //TODO: verklaar en pas eventueel aan
-        //assertEquals(expected, account.getId();
+        assertEquals(expected, account.getId());
         em.getTransaction().commit();
         //TODO: verklaar en pas eventueel aan
     }
