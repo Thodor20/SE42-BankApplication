@@ -53,11 +53,9 @@ public class AccountTest {
         assertNull(account.getId());
         em.getTransaction().commit();
         System.out.println("AccountId: " + account.getId());
-        //TODO: verklaar en pas eventueel aan
         //Het is nu gecommit dus kunnen wel een id ophalen. 
         //Het id dat we gezet hebben is groter dan 0.
         assertTrue(account.getId() > 0L);
-        assertEquals(account.getId(), 111L, 0);
     }
 
     @Test
@@ -67,12 +65,10 @@ public class AccountTest {
         em.persist(account);
         assertNull(account.getId());
         em.getTransaction().rollback();
-        
+
         // TODO code om te testen dat table account geen records bevat. Hint: bestudeer/gebruik AccountDAOJPAImpl
         AccountDAO dAO = new AccountDAOJPAImpl(em);
-        
         assertTrue(dAO.count() == 0);
-        
     }
 
     @Test
@@ -87,7 +83,7 @@ public class AccountTest {
         em.flush();
         //flush draait wel queries om de data weg te schrijven.
         assertNotEquals(expected, account.getId());
-       
+
         em.getTransaction().commit();
         //TODO: verklaar en pas eventueel aan
     }
@@ -118,7 +114,6 @@ public class AccountTest {
     @Test
     public void merge() {
         Account acc = new Account(1L);
-        //Account acc2 = new Account(2L);
         Account acc9 = new Account(9L);
 
         // scenario 1
@@ -129,6 +124,7 @@ public class AccountTest {
         em.getTransaction().commit();
         //TODO: voeg asserties toe om je verwachte waarde van de attributen te verifieren.
         //TODO: doe dit zowel voor de bovenstaande java objecten als voor opnieuw bij de entitymanager opgevraagde objecten met overeenkomstig Id.
+        assertEquals(balance1, acc.getBalance());
 
         // scenario 2
         Long balance2a = 211L;
@@ -141,6 +137,8 @@ public class AccountTest {
         //TODO: voeg asserties toe om je verwachte waarde van de attributen te verifiëren.
         //TODO: doe dit zowel voor de bovenstaande java objecten als voor opnieuw bij de entitymanager opgevraagde objecten met overeenkomstig Id. 
         // HINT: gebruik acccountDAO.findByAccountNr
+        assertEquals(balance2a, acc.getBalance(), 0);
+        assertEquals(balance2a + balance2a, acc9.getBalance(), 0);
 
         // scenario 3
         Long balance3b = 322L;
@@ -160,10 +158,10 @@ public class AccountTest {
         // scenario 4
         Account account = new Account(114L);
         account.setBalance(450L);
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(account);
-        em.getTransaction().commit();
+        EntityManager em2 = emf.createEntityManager();
+        em2.getTransaction().begin();
+        em2.persist(account);
+        em2.getTransaction().commit();
 
         Account account2 = new Account(114L);
         Account tweedeAccountObject = account2;
@@ -201,9 +199,9 @@ public class AccountTest {
         accF1 = em.find(Account.class, acc1.getId());
         em.clear();
         accF2 = em.find(Account.class, acc1.getId());
-        assertSame(accF1, accF2);
-        //TODO verklaar verschil tussen beide scenario’s
-
+        assertNotSame(accF1, accF2);
+        //Na het leegmaken van de entitymanager worden alle entiteiten ontbonden van de database.
+        //Dit zal betekenen dat de entiteiten niet meer hetzelfde zijn ook al haal je steeds account 1 op.
     }
 
     @Test
@@ -219,8 +217,10 @@ public class AccountTest {
         assertEquals(id, acc1.getId());
         Account accFound = em.find(Account.class, id);
         assertNull(accFound);
-        //TODO: verklaar bovenstaande asserts
-
+        //Eerst wordt er in de database een account gecommit.
+        //Vervolgens wordt dit verwijdert uit de entitymanager, deze bestaat dus niet meer in de database, wel lokaal.
+        //Achteraf kijken we of we het gegeven account nog steeds kunnen ophalen uit de database, dit is niet het geval.
+        //Daarom is de laatste assert null.
     }
 
 }
