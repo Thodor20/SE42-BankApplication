@@ -82,10 +82,10 @@ public class AccountTest {
         account.setId(expected);
         em.getTransaction().begin();
         em.persist(account);
-        //TODO: verklaar en pas eventueel aan
+        //Persist draait nog geen queries om de data weg te schrijven
         assertEquals(expected, account.getId());
         em.flush();
-        //TODO: verklaar en pas eventueel aan
+        //flush draait wel queries om de data weg te schrijven.
         assertNotEquals(expected, account.getId());
        
         em.getTransaction().commit();
@@ -101,13 +101,17 @@ public class AccountTest {
         account.setBalance(expectedBalance);
         em.getTransaction().commit();
         assertEquals(expectedBalance, account.getBalance());
-        //TODO: verklaar de waarde van account.getBalance
+        //De waarde van getBalance:
+        //- Persist zorgt ervoor dat de account opgeslagen wordt als een entiteit in de database.
+        //- SetBalance zal de lokale waarde aanpassen van de account.
+        //- Commit zorgt ervoor dat de veranderingen gesynchroniseerd worden.
         Long cid = account.getId();
         account = null;
         EntityManager em2 = emf.createEntityManager();
         em2.getTransaction().begin();
         Account found = em2.find(Account.class, cid);
-        //TODO: verklaar de waarde van found.getBalance
+        //Omdat de gegevens van account in de vorige transactie gecommit waren
+        //zijn ze in verdere transacties altijd beschikbaar.
         assertEquals(expectedBalance, found.getBalance());
     }
 
