@@ -224,5 +224,12 @@ public class AccountTest {
         //Achteraf kijken we of we het gegeven account nog steeds kunnen ophalen uit de database, dit is niet het geval.
         //Daarom is de laatste assert null.
     }
+    
+    //Bij Identity en Sequence zijn de test resultaten hetzelfde. De database structuur verschilt bij deze twee.
+    //Bij Identity maakt het systeem id kolommen aan in de account tabel zelf om unieke waardes te behouden.
+    //Bij Sequence maakt het systeem een aparte tabel aan genaamd secuence om unieke waardes bij te houden 
+    //aan de hand van andere unieke kolommen.
+    //Bij Table zijn de test resultaten niet hetzelfde. De database structuur voor de tabel account is hetzelfde als bij
+    //Identity alleen wordt voor unieke waardes een nieuwe database aangemaakt.
 
 }
