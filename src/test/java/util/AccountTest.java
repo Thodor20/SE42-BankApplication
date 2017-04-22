@@ -83,10 +83,11 @@ public class AccountTest {
         em.getTransaction().begin();
         em.persist(account);
         //TODO: verklaar en pas eventueel aan
-        assertNotEquals(expected, account.getId());
+        assertEquals(expected, account.getId());
         em.flush();
         //TODO: verklaar en pas eventueel aan
-        assertEquals(expected, account.getId());
+        assertNotEquals(expected, account.getId());
+       
         em.getTransaction().commit();
         //TODO: verklaar en pas eventueel aan
     }
