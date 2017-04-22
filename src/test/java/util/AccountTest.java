@@ -114,6 +114,7 @@ public class AccountTest {
     @Test
     public void merge() {
         Account acc = new Account(1L);
+        Account acc2 = new Account(2L);
         Account acc9 = new Account(9L);
 
         // scenario 1
@@ -145,10 +146,11 @@ public class AccountTest {
         Long balance3c = 333L;
         acc = new Account(3L);
         em.getTransaction().begin();
-        Account acc2 = em.merge(acc);
-        assertTrue(em.contains(acc)); // verklaar
-        assertTrue(em.contains(acc2)); // verklaar
-        assertEquals(acc, acc2);  //verklaar
+        acc2 = em.merge(acc);
+        assertFalse(em.contains(acc)); // AssertTrue faalt omdat de originele entiteit (acc) niet persistent gemaakt wordt.
+        //In plaats daarvan krijg je een persistente kopie van je object terug.
+        assertTrue(em.contains(acc2));
+        assertNotEquals(acc, acc2);  //Acc is een niet persistent object en acc2 is dat wel.
         acc2.setBalance(balance3b);
         acc.setBalance(balance3c);
         em.getTransaction().commit();
@@ -170,14 +172,14 @@ public class AccountTest {
         account2.setId(account.getId());
         em.getTransaction().begin();
         account2 = em.merge(account2);
-        assertSame(account, account2);  //verklaar
-        assertTrue(em.contains(account2));  //verklaar
-        assertFalse(em.contains(tweedeAccountObject));  //verklaar
+        assertNotSame(account, account2);  //De merge hierboven kan niet persisten omdat een object met dat id al bestaat.
+        assertTrue(em.contains(account2));  //Het tweede account is met de merge persistent gemaakt en daarom beschikbaar.
+        assertFalse(em.contains(tweedeAccountObject));  //tweedeaccount object is nooit persistent gemaakt.
         tweedeAccountObject.setBalance(850l);
-        assertEquals((Long) 650L, account.getBalance());  //verklaar
-        assertEquals((Long) 650L, account2.getBalance());  //verklaar
+        assertEquals((Long) 450L, account.getBalance());  //De de balans is nooit aangepast. 
+        assertEquals((Long) 650L, account2.getBalance());  //De merge is niet gelukt dus deze waarde is ook niet aangepast.
         em.getTransaction().commit();
-        em.close();
+        em2.close();
     }
 
     @Test
