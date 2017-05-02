@@ -167,8 +167,9 @@ public class AccountTest {
 
         Account account2 = new Account(114L);
         Account tweedeAccountObject = account2;
-        tweedeAccountObject.setBalance(650l);
-        assertEquals((Long) 650L, account2.getBalance());  //verklaar
+        tweedeAccountObject.setBalance(650L);
+        assertEquals((Long) 650L, account2.getBalance());  //Je gebruikt een referentie naar het account2 object.
+                                                           //De waarde daarvan wordt gezet door het tweedeAccount object.
         account2.setId(account.getId());
         em.getTransaction().begin();
         account2 = em.merge(account2);
