@@ -11,7 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import util.DatabaseCleaner;
 
-public class RegistrationMgrTest {
+public class JPARegistrationMgrTest {
 
     private RegistrationMgr registrationMgr;
     private DatabaseCleaner dbc;

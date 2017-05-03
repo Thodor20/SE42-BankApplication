@@ -60,8 +60,14 @@ public class UserDAOJPAImpl implements UserDAO {
         this.openTransaction();
         Query q = this.em.createNamedQuery("User.findByEmail", User.class);
         q.setParameter("email", email);
-        User result = (User) q.getSingleResult();
-        this.closeTransaction();
+        User result = null;
+        try {
+            result = (User) q.getSingleResult();
+        }catch(Exception e){
+            
+        }finally{
+            this.closeTransaction();
+        }
         return result;
     }
 
