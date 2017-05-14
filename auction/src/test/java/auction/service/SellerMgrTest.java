@@ -19,10 +19,10 @@ public class SellerMgrTest {
     private AuctionMgr auctionMgr;
     private RegistrationMgr registrationMgr;
     private SellerMgr sellerMgr;
-    
-        private EntityManagerFactory emf;
+
+    private EntityManagerFactory emf;
     private EntityManager em;
-    
+
     private DatabaseCleaner dbc;
 
     @Before
@@ -57,20 +57,19 @@ public class SellerMgrTest {
     public void testRevokeItem() {
         String omsch = "omsch";
         String omsch2 = "omsch2";
-        
-    
+
         User seller = registrationMgr.registerUser("sel@nl");
         User buyer = registrationMgr.registerUser("buy@nl");
         Category cat = new Category("cat1");
-        
-            // revoke before bidding
+
+        // revoke before bidding
         Item item1 = sellerMgr.offerItem(seller, cat, omsch);
         boolean res = sellerMgr.revokeItem(item1);
         assertTrue(res);
         int count = auctionMgr.findItemByDescription(omsch).size();
         assertEquals(0, count);
-        
-            // revoke after bid has been made
+
+        // revoke after bid has been made
         Item item2 = sellerMgr.offerItem(seller, cat, omsch2);
         auctionMgr.newBid(item2, buyer, new Money(100, "Euro"));
         boolean res2 = sellerMgr.revokeItem(item2);

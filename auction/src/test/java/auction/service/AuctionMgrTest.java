@@ -40,16 +40,6 @@ public class AuctionMgrTest {
         dbc.clean();
     }
     
-    @After
-    public void tearDown() throws Exception {
-        try {
-            dbc.clean();
-        }
-        catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
     @Test
     public void getItem() {
 
