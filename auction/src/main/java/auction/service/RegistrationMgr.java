@@ -7,7 +7,7 @@ import auction.dao.UserDAOJPAImpl;
 
 public class RegistrationMgr {
 
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
 
     public RegistrationMgr() {
         this.userDAO = new UserDAOJPAImpl();

@@ -6,24 +6,34 @@ import nl.fontys.util.Money;
 
 import org.junit.Before;
 import org.junit.Test;
-
-
-
 import auction.domain.Category;
 import auction.domain.Item;
 import auction.domain.User;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import util.DatabaseCleaner;
 
 public class SellerMgrTest {
 
     private AuctionMgr auctionMgr;
     private RegistrationMgr registrationMgr;
     private SellerMgr sellerMgr;
+    
+        private EntityManagerFactory emf;
+    private EntityManager em;
+    
+    private DatabaseCleaner dbc;
 
     @Before
     public void setUp() throws Exception {
         registrationMgr = new RegistrationMgr();
         auctionMgr = new AuctionMgr();
         sellerMgr = new SellerMgr();
+        this.emf = Persistence.createEntityManagerFactory("AuctionPU");
+        this.em = this.emf.createEntityManager();
+        this.dbc = new DatabaseCleaner(this.em);
+        dbc.clean();
     }
 
     /**
@@ -67,10 +77,7 @@ public class SellerMgrTest {
         assertFalse(res2);
         int count2 = auctionMgr.findItemByDescription(omsch2).size();
         assertEquals(1, count2);
-        
-        
-        
-        
+
     }
 
 }

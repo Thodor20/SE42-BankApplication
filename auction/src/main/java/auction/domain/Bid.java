@@ -1,16 +1,40 @@
 package auction.domain;
 
+import java.io.Serializable;
+import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import nl.fontys.util.FontysTime;
 import nl.fontys.util.Money;
 
-public class Bid {
+@Entity
+public class Bid implements Serializable {
 
-    private FontysTime time;
+    
+    @Embedded
+    private final FontysTime time;
+
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private User buyer;
+
+    @Embedded
     private Money amount;
 
+    @Id
+    @GeneratedValue
+    private Long id;
+
     public Bid(User buyer, Money amount) {
-        //TODO
+        time = new FontysTime();
+        this.buyer = buyer;
+        this.amount = amount;
+    }
+    
+    public Bid() {
+        time = new FontysTime();
     }
 
     public FontysTime getTime() {
@@ -23,5 +47,9 @@ public class Bid {
 
     public Money getAmount() {
         return amount;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

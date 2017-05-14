@@ -1,14 +1,47 @@
 package auction.domain;
 
+import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import nl.fontys.util.Money;
 
-public class Item implements Comparable {
+@Entity
+@NamedQueries({
+    @NamedQuery(name = "Item.getAll", query = "select i from Item as i")
+    ,
+    @NamedQuery(name = "Item.count", query = "select count(i) from Item as i")
+    ,
+    @NamedQuery(name = "Item.findByDescription", query = "select i from Item as i where i.description = :description")
+})
+public class Item implements Comparable, Serializable {
 
+    @Id
+    @GeneratedValue
     private Long id;
-    private User seller;
+
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    private final User seller;
+
+    @Embedded
     private Category category;
+    
     private String description;
+
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Bid highest;
+
+    public Item() {
+        this.seller = new User();
+    }
 
     public Item(User seller, Category category, String description) {
         this.seller = seller;
@@ -44,18 +77,31 @@ public class Item implements Comparable {
         return highest;
     }
 
-    public int compareTo(Object arg0) {
-        //TODO
-        return -1;
+    @Override
+    public int compareTo(Object other) {
+        if (other == null) {
+            return 1;
+        }
+        Item item = (Item)other;
+        return this.id > item.id ? 1
+                : this.id < item.id ? -1 : 0;
     }
 
+    @Override
     public boolean equals(Object o) {
-        //TODO
-        return false;
+        if(o == null) return false;
+        
+        Item it = (Item)o;
+        return Objects.equals(it.id, this.id) && it.description.equals(this.description) && it.seller.getEmail().equals(this.seller.getEmail());
     }
 
+    @Override
     public int hashCode() {
-        //TODO
-        return 0;
+         if (id != null) {
+        return this.id.hashCode();
+        }
+        else {
+            return -1;
+         }
     }
 }
