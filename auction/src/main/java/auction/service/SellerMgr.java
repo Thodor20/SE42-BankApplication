@@ -6,17 +6,15 @@ import auction.domain.Category;
 import auction.domain.Item;
 import auction.domain.User;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+
 
 public class SellerMgr {
     
     private final ItemDAO itemDAO;
     private final EntityManager em;
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("AuctionPU");
     
-    public SellerMgr() {
-        em = emf.createEntityManager();
+    public SellerMgr( EntityManager em) {
+        this.em = em;
         itemDAO = new ItemDAOJPAImpl(em);
     }
 
@@ -45,9 +43,7 @@ public class SellerMgr {
         if (it.getHighestBid() != null) {
             return false;
         } else {
-            em.getTransaction().begin();
             itemDAO.remove(item);
-            em.getTransaction().commit();
             return true;
         }
     }

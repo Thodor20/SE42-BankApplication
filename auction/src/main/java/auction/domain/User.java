@@ -2,7 +2,6 @@ package auction.domain;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -19,17 +18,14 @@ import javax.persistence.NamedQuery;
 })
 public class User implements Serializable {
     
+    @Id
     private String email;
-
-    @Id @GeneratedValue
-    private long id;
     
     public User() {
     }
 
     public User(String email) {
         this.email = email;
-
     }
 
     public String getEmail() {

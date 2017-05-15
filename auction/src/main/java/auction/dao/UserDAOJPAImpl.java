@@ -4,23 +4,20 @@ import auction.domain.User;
 import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 public class UserDAOJPAImpl implements UserDAO {
 
     private final EntityManager em;
 
-    public UserDAOJPAImpl() {
-        this.em = Persistence.createEntityManagerFactory("AuctionPU").createEntityManager();
+    public UserDAOJPAImpl(EntityManager em) {
+        this.em = em;
     }
 
     @Override
     public int count() {
-        this.openTransaction();
         Query q = this.em.createNamedQuery("User.count", User.class);
         int result = ((Long) q.getSingleResult()).intValue();
-        this.closeTransaction();
         return result;
     }
 
@@ -29,10 +26,9 @@ public class UserDAOJPAImpl implements UserDAO {
         if (findByEmail(user.getEmail()) != null) {
             throw new EntityExistsException();
         }
-
-        this.openTransaction();
+        this.em.getTransaction().begin();
         this.em.persist(user);
-        this.closeTransaction();
+        this.em.getTransaction().commit();
     }
 
     @Override
@@ -41,23 +37,18 @@ public class UserDAOJPAImpl implements UserDAO {
             throw new IllegalArgumentException();
         }
 
-        this.openTransaction();
         this.em.persist(user);
-        this.closeTransaction();
     }
 
     @Override
     public List<User> findAll() {
-        this.openTransaction();
         Query q = this.em.createNamedQuery("User.getAll", User.class);
         List<User> result = q.getResultList();
-        this.closeTransaction();
         return result;
     }
 
     @Override
     public User findByEmail(String email) {
-        this.openTransaction();
         Query q = this.em.createNamedQuery("User.findByEmail", User.class);
         q.setParameter("email", email);
         User result = null;
@@ -65,25 +56,14 @@ public class UserDAOJPAImpl implements UserDAO {
             result = (User) q.getSingleResult();
         }catch(Exception e){
             
-        }finally{
-            this.closeTransaction();
         }
         return result;
     }
 
     @Override
     public void remove(User user) {
-        this.openTransaction();
-        this.em.remove(user);
-        this.closeTransaction();
+        em.remove(user);
     }
 
-    private void openTransaction() {
-        this.em.getTransaction().begin();
-    }
-
-    private void closeTransaction() {
-        this.em.getTransaction().commit();
-    }
 
 }

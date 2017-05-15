@@ -16,14 +16,14 @@ import javax.persistence.Query;
  *
  * @author sande
  */
-public class ItemDAOJPAImpl implements ItemDAO{
+public class ItemDAOJPAImpl implements ItemDAO {
 
     private final EntityManager em;
     private final UserDAO userdao;
 
     public ItemDAOJPAImpl(EntityManager em) {
         this.em = em;
-        this.userdao = new UserDAOJPAImpl();
+        this.userdao = new UserDAOJPAImpl(em);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class ItemDAOJPAImpl implements ItemDAO{
 
     @Override
     public void remove(Item item) {
-        em.remove(item);
+        em.remove(em.merge(item));
     }
-      
+
 }

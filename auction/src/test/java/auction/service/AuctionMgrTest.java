@@ -32,10 +32,10 @@ public class AuctionMgrTest {
     public void setUp() throws Exception {
         registrationMgr = new RegistrationMgr();
         auctionMgr = new AuctionMgr();
-        sellerMgr = new SellerMgr();
         
         this.emf = Persistence.createEntityManagerFactory("AuctionPU");
         this.em = this.emf.createEntityManager();
+        sellerMgr = new SellerMgr(em);
         this.dbc = new DatabaseCleaner(this.em);
         dbc.clean();
     }

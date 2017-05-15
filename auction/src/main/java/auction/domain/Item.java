@@ -35,7 +35,7 @@ public class Item implements Comparable, Serializable {
     
     private String description;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne
     private Bid highest;
 
     public Item() {

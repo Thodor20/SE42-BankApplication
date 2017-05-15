@@ -6,9 +6,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import auction.domain.User;
+import java.sql.SQLException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import org.junit.After;
 import util.DatabaseCleaner;
 
 public class JPARegistrationMgrTest {
@@ -69,4 +71,5 @@ public class JPARegistrationMgrTest {
         users = registrationMgr.getUsers();
         assertEquals(2, users.size());
     }
+    
 }
