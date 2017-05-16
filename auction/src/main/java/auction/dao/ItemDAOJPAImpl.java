@@ -38,7 +38,9 @@ public class ItemDAOJPAImpl implements ItemDAO {
         if (user == null) {
             userdao.create(item.getSeller());
         }
+        em.getTransaction().begin();
         em.persist(item);
+        em.getTransaction().commit();
     }
 
     @Override
