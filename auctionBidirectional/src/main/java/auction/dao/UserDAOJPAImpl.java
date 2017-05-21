@@ -65,5 +65,4 @@ public class UserDAOJPAImpl implements UserDAO {
         em.remove(user);
     }
 
-
 }
