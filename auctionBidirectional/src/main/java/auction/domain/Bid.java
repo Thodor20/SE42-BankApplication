@@ -7,13 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import nl.fontys.util.FontysTime;
 import nl.fontys.util.Money;
 
 @Entity
 public class Bid implements Serializable {
 
-    
     @Embedded
     private final FontysTime time;
 
@@ -26,6 +26,9 @@ public class Bid implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+    
+    @OneToOne(cascade = CascadeType.REMOVE)
+    private Item owner;
 
     public Bid(User buyer, Money amount) {
         time = new FontysTime();

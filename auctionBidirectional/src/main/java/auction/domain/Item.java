@@ -1,6 +1,7 @@
 package auction.domain;
 
 //<editor-fold defaultstate="collapsed" desc="Imports">
+import com.sun.istack.internal.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -43,7 +44,8 @@ public class Item implements Comparable<Item>, Serializable {
 
     private String description;
 
-    @OneToOne
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.PERSIST)
+    @NotNull
     private Bid highest;
 
     /**
@@ -51,6 +53,7 @@ public class Item implements Comparable<Item>, Serializable {
      */
     public Item() {
         this.seller = new User();
+        this.highest = new Bid(this.seller, new Money(0, "eur"));
     }
 
     /**
@@ -63,6 +66,7 @@ public class Item implements Comparable<Item>, Serializable {
         this.seller = seller;
         this.category = category;
         this.description = description;
+        this.highest = new Bid(this.seller, new Money(0, "eur"));
         
         this.seller.addItem(this);
     }

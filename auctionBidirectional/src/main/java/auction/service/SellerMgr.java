@@ -6,6 +6,7 @@ import auction.domain.Category;
 import auction.domain.Item;
 import auction.domain.User;
 import javax.persistence.EntityManager;
+import nl.fontys.util.Money;
 
 public class SellerMgr {
 
@@ -37,7 +38,7 @@ public class SellerMgr {
      */
     public boolean revokeItem(Item item) {
         Item it = itemDAO.find(item.getId());
-        if (it.getHighestBid() != null) {
+        if (it.getHighestBid().getAmount().getCents() != 0) {
             return false;
         } else {
             em.getTransaction().begin();

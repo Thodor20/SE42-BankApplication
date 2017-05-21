@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
@@ -30,6 +31,7 @@ public class User implements Serializable {
 
     @Id
     private String email;
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.PERSIST)
     private Set<Item> offeredItems;
 
     /**

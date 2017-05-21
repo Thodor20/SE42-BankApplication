@@ -29,7 +29,7 @@ public class ItemDAOJPAImpl implements ItemDAO {
     @Override
     public int count() {
         Query q = em.createNamedQuery("Item.count", Item.class);
-        return ((Long) q.getSingleResult()).intValue();
+        return ((Number) q.getSingleResult()).intValue();
     }
 
     @Override

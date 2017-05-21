@@ -30,7 +30,6 @@ public class ItemsFromSellerTest {
     }
 
     @Test
-    //   @Ignore
     public void numberOfOfferdItems() {
 
         String email = "ifu1@nl";
@@ -42,9 +41,8 @@ public class ItemsFromSellerTest {
 
         Category cat = new Category("cat2");
         Item item1 = sellerMgr.offerItem(user1, cat, omsch1);
-        
+
         // test number of items belonging to user1
-        assertEquals(0, user1.numberOfOfferedItems());
         assertEquals(1, user1.numberOfOfferedItems());
 
         /*
@@ -64,16 +62,13 @@ public class ItemsFromSellerTest {
 
         User userWithItem = item2.getSeller();
         assertEquals(2, userWithItem.numberOfOfferedItems());
-        assertEquals(3, userWithItem.numberOfOfferedItems());
         /*
          *  expected: which one of te above two assertions do you expect to be true?
          *  QUESTION:
          *    Explain the result in terms of entity manager and persistance context.
          */
 
-        assertNotSame(user3, userWithItem);
         assertEquals(user3, userWithItem);
-
     }
 
     @Test
@@ -101,6 +96,7 @@ public class ItemsFromSellerTest {
         // Explain difference in above two tests for te iterator of 'same' user
         User user20 = registrationMgr.getUser(email);
         Item item20 = sellerMgr.offerItem(user20, cat, omsch2);
+        assertNotNull(item20.getHighestBid());
         Iterator<Item> it20 = user20.getOfferedItems();
         assertTrue(it20.hasNext());
         it20.next();
@@ -111,6 +107,6 @@ public class ItemsFromSellerTest {
         assertTrue(it30.hasNext());
         it30.next();
         assertTrue(it30.hasNext());
-
     }
+
 }
