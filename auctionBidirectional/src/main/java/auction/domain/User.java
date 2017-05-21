@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 //</editor-fold>
 
 /**
@@ -79,7 +80,7 @@ public class User implements Serializable {
      *
      * @param item The item to add set.
      */
-    private void addItem(Item item) {
+    void addItem(Item item) {
         this.offeredItems.add(item);
     }
 

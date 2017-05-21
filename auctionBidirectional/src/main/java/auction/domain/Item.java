@@ -63,6 +63,8 @@ public class Item implements Comparable<Item>, Serializable {
         this.seller = seller;
         this.category = category;
         this.description = description;
+        
+        this.seller.addItem(this);
     }
 
     /**
