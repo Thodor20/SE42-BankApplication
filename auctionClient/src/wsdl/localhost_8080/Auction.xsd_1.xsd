@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is JAX-WS RI 2.2.9-b130926.1035 svn-revision#5f6196f2b90e9460065a4c2f4e30e065b245e51e. --><xs:schema xmlns:tns="http://web/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://web/">
+
+<xs:element name="bid" type="tns:bid"></xs:element>
+
+<xs:element name="category" type="tns:category"></xs:element>
+
+<xs:element name="cleanDatabase" type="tns:cleanDatabase"></xs:element>
+
+<xs:element name="cleanDatabaseResponse" type="tns:cleanDatabaseResponse"></xs:element>
+
+<xs:element name="createBid" type="tns:createBid"></xs:element>
+
+<xs:element name="createBidResponse" type="tns:createBidResponse"></xs:element>
+
+<xs:element name="createItem" type="tns:createItem"></xs:element>
+
+<xs:element name="createItemResponse" type="tns:createItemResponse"></xs:element>
+
+<xs:element name="fontysTime" type="tns:fontysTime"></xs:element>
+
+<xs:element name="getItemByDescription" type="tns:getItemByDescription"></xs:element>
+
+<xs:element name="getItemByDescriptionResponse" type="tns:getItemByDescriptionResponse"></xs:element>
+
+<xs:element name="getItemById" type="tns:getItemById"></xs:element>
+
+<xs:element name="getItemByIdResponse" type="tns:getItemByIdResponse"></xs:element>
+
+<xs:element name="item" type="tns:item"></xs:element>
+
+<xs:element name="money" type="tns:money"></xs:element>
+
+<xs:element name="removeItem" type="tns:removeItem"></xs:element>
+
+<xs:element name="removeItemResponse" type="tns:removeItemResponse"></xs:element>
+
+<xs:element name="user" type="tns:user"></xs:element>
+
+<xs:complexType name="cleanDatabase">
+<xs:sequence></xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cleanDatabaseResponse">
+<xs:sequence></xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createItem">
+<xs:sequence>
+<xs:element name="arg0" type="tns:user" minOccurs="0"></xs:element>
+<xs:element name="arg1" type="tns:category" minOccurs="0"></xs:element>
+<xs:element name="arg2" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="user">
+<xs:sequence>
+<xs:element name="email" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="category">
+<xs:sequence>
+<xs:element name="description" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createItemResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:item" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="item">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"></xs:element>
+<xs:element name="seller" type="tns:user" minOccurs="0"></xs:element>
+<xs:element name="category" type="tns:category" minOccurs="0"></xs:element>
+<xs:element name="description" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="highest" type="tns:bid" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="bid">
+<xs:sequence>
+<xs:element name="time" type="tns:fontysTime" minOccurs="0"></xs:element>
+<xs:element name="buyer" type="tns:user" minOccurs="0"></xs:element>
+<xs:element name="amount" type="tns:money" minOccurs="0"></xs:element>
+<xs:element name="id" type="xs:long" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="fontysTime">
+<xs:sequence>
+<xs:element name="seconds" type="xs:long"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="money">
+<xs:sequence>
+<xs:element name="currency" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="cents" type="xs:long"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getItemById">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getItemByIdResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:item" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createBid">
+<xs:sequence>
+<xs:element name="arg0" type="tns:item" minOccurs="0"></xs:element>
+<xs:element name="arg1" type="tns:user" minOccurs="0"></xs:element>
+<xs:element name="arg2" type="tns:money" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createBidResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:bid" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="removeItem">
+<xs:sequence>
+<xs:element name="arg0" type="tns:item" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="removeItemResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getItemByDescription">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getItemByDescriptionResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:item" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
