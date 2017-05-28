@@ -12,6 +12,7 @@ import auction.domain.User;
 import auction.service.AuctionMgr;
 import auction.service.SellerMgr;
 import java.util.List;
+import javax.jws.WebMethod;
 import javax.jws.WebService;
 import nl.fontys.util.Money;
 
@@ -22,28 +23,69 @@ import nl.fontys.util.Money;
 @WebService(serviceName = "Auction")
 public class Auction {
 
-    AuctionMgr auctionMgr = new AuctionMgr();
-    SellerMgr sellerMgr = new SellerMgr();
-    
-    public Item getItem(Long id){
+    private final AuctionMgr auctionMgr;
+    private final SellerMgr sellerMgr;
+
+    /**
+     * 
+     */
+    public Auction() {
+        auctionMgr = new AuctionMgr();
+        sellerMgr = new SellerMgr();
+    }
+
+    /**
+     * 
+     * @param id
+     * @return 
+     */
+    @WebMethod(operationName = "getItemById")
+    public Item getItem(Long id) {
         return auctionMgr.getItem(id);
     }
-    
-    public List<Item> findItemByDescription(String description){
+
+    /**
+     * 
+     * @param description
+     * @return 
+     */
+    @WebMethod(operationName = "getItemByDescription")
+    public List<Item> findItemByDescription(String description) {
         return auctionMgr.findItemByDescription(description);
     }
-    
-    public Bid newBid(Item item, User buyer,Money amount){
+
+    /**
+     * 
+     * @param item
+     * @param buyer
+     * @param amount
+     * @return 
+     */
+    @WebMethod(operationName = "createBid")
+    public Bid newBid(Item item, User buyer, Money amount) {
         return auctionMgr.newBid(item, buyer, amount);
     }
-    
-    public Item offerItem(User seller, Category category,String description){
+
+    /**
+     * 
+     * @param seller
+     * @param category
+     * @param description
+     * @return 
+     */
+    @WebMethod(operationName = "createItem")
+    public Item offerItem(User seller, Category category, String description) {
         return sellerMgr.offerItem(seller, category, description);
     }
-    
-    public boolean revokeItem(Item item){
+
+    /**
+     * 
+     * @param item
+     * @return 
+     */
+    @WebMethod(operationName = "removeItem")
+    public boolean revokeItem(Item item) {
         return sellerMgr.revokeItem(item);
     }
-    
-    
+
 }

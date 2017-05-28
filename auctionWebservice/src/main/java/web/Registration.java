@@ -16,16 +16,16 @@ import javax.jws.WebService;
  */
 @WebService(serviceName = "Registration")
 public class Registration {
-    
+
     private final RegistrationMgr registrationMgr = new RegistrationMgr();
-    
+
     @WebMethod(operationName = "Register")
-    public User registerUser(String email){
+    public User registerUser(String email) {
         return registrationMgr.registerUser(email);
     }
-    
+
     @WebMethod(operationName = "GetUser")
-    public User getUser(String email){
+    public User getUser(String email) {
         return registrationMgr.getUser(email);
     }
 
