@@ -6,6 +6,7 @@
 package com.fontys.auctionwebservice;
 
 import javax.xml.ws.Endpoint;
+import web.Auction;
 import web.Registration;
 
 /**
@@ -18,6 +19,8 @@ public class PublishWeb {
     
     public static void main(String[] args) {
         Endpoint.publish(REGISTRATION, new Registration());
+        Endpoint.publish(AUCTION, new Auction());
+        
     }
     
 }
