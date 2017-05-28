@@ -4,58 +4,63 @@ import java.io.Serializable;
 import java.sql.Time;
 import java.util.TimeZone;
 import javax.persistence.Embeddable;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Embeddable
 public class FontysTime implements Serializable {
-    
-	private long seconds;
 
-	public FontysTime() {
-		seconds = 0;
-	}
+    private long seconds;
 
-	public static FontysTime now() {
-		FontysTime someTime;
-		someTime = FontysTime.fromSeconds(System.currentTimeMillis() / 1000);
-		return someTime;
-	}
+    public FontysTime() {
+        seconds = 0;
+    }
 
-	public static FontysTime fromSeconds(long iseconds) {
-		FontysTime someTime;
-		someTime = new FontysTime();
-		someTime.seconds = iseconds;
-		return someTime;
-	}
+    public static FontysTime now() {
+        FontysTime someTime;
+        someTime = FontysTime.fromSeconds(System.currentTimeMillis() / 1000);
+        return someTime;
+    }
 
-	public FontysTime increment(long seconds) {
-		this.seconds += seconds;
-		return this;
-	}
+    public static FontysTime fromSeconds(long iseconds) {
+        FontysTime someTime;
+        someTime = new FontysTime();
+        someTime.seconds = iseconds;
+        return someTime;
+    }
 
-	public long asSeconds() {
-		return (seconds);
-	}
+    public FontysTime increment(long seconds) {
+        this.seconds += seconds;
+        return this;
+    }
 
-	public long subtractTime(FontysTime someTime) {
-		return this.asSeconds() - someTime.asSeconds();
-	}
+    public long asSeconds() {
+        return (seconds);
+    }
 
-        @Override
-	public String toString() {
-		Time time;
+    public long subtractTime(FontysTime someTime) {
+        return this.asSeconds() - someTime.asSeconds();
+    }
 
-		// de java Time class is in staat strings van tijd objecten
-		// te maken echter vindt er ongewenste conversie plaats tov gmt
-		// corrigeer hiervoor
-		TimeZone current = TimeZone.getDefault();
-		TimeZone tz = TimeZone.getTimeZone("GMT");
-		TimeZone.setDefault(tz);
+    @Override
+    public String toString() {
+        Time time;
 
-		time = new Time(this.asSeconds() * 1000);
-		String timeString;
-		timeString = time.toString();
+        // de java Time class is in staat strings van tijd objecten
+        // te maken echter vindt er ongewenste conversie plaats tov gmt
+        // corrigeer hiervoor
+        TimeZone current = TimeZone.getDefault();
+        TimeZone tz = TimeZone.getTimeZone("GMT");
+        TimeZone.setDefault(tz);
 
-		TimeZone.setDefault(current);
-		return timeString;
-	}
+        time = new Time(this.asSeconds() * 1000);
+        String timeString;
+        timeString = time.toString();
+
+        TimeZone.setDefault(current);
+        return timeString;
+    }
 }

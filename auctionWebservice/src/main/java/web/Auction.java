@@ -11,9 +11,13 @@ import auction.domain.Item;
 import auction.domain.User;
 import auction.service.AuctionMgr;
 import auction.service.SellerMgr;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import javax.persistence.Persistence;
 import nl.fontys.util.Money;
 
 /**
@@ -27,7 +31,7 @@ public class Auction {
     private final SellerMgr sellerMgr;
 
     /**
-     * 
+     *
      */
     public Auction() {
         auctionMgr = new AuctionMgr();
@@ -35,9 +39,9 @@ public class Auction {
     }
 
     /**
-     * 
+     *
      * @param id
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "getItemById")
     public Item getItem(Long id) {
@@ -45,9 +49,9 @@ public class Auction {
     }
 
     /**
-     * 
+     *
      * @param description
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "getItemByDescription")
     public List<Item> findItemByDescription(String description) {
@@ -55,11 +59,11 @@ public class Auction {
     }
 
     /**
-     * 
+     *
      * @param item
      * @param buyer
      * @param amount
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "createBid")
     public Bid newBid(Item item, User buyer, Money amount) {
@@ -67,11 +71,11 @@ public class Auction {
     }
 
     /**
-     * 
+     *
      * @param seller
      * @param category
      * @param description
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "createItem")
     public Item offerItem(User seller, Category category, String description) {
@@ -79,13 +83,26 @@ public class Auction {
     }
 
     /**
-     * 
+     *
      * @param item
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "removeItem")
     public boolean revokeItem(Item item) {
         return sellerMgr.revokeItem(item);
+    }
+
+    /**
+     * FOR CLIENT TEST PURPOSES ONLY!
+     */
+    @WebMethod(operationName = "cleanDatabase")
+    public void emptyDatabase() {
+        try {
+            DatabaseCleaner dbcln = new DatabaseCleaner(Persistence.createEntityManagerFactory("AuctionPU").createEntityManager());
+            dbcln.clean();
+        } catch (SQLException ex) {
+            Logger.getLogger(Auction.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
