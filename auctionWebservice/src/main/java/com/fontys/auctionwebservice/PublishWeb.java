@@ -14,6 +14,7 @@ import web.Registration;
  */
 public class PublishWeb {
     private final static String REGISTRATION = "http://localhost:8080/Registration";
+    private final static String AUCTION = "http://localhost:8080/Auction";
     
     public static void main(String[] args) {
         Endpoint.publish(REGISTRATION, new Registration());
