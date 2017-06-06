@@ -33,7 +33,7 @@
                             <wsdlFiles>
                                 <wsdlFile>localhost_8080/Auction.wsdl</wsdlFile>
                             </wsdlFiles>
-                            <packageName>com.fontys.auctionClient</packageName>
+                            <packageName></packageName>
                             <vmArgs>
                                 <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
                             </vmArgs>
@@ -51,7 +51,7 @@
                             <wsdlFiles>
                                 <wsdlFile>localhost_8080/Registration.wsdl</wsdlFile>
                             </wsdlFiles>
-                            <packageName>com.fontys.auctionClient</packageName>
+                            <packageName></packageName>
                             <vmArgs>
                                 <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
                             </vmArgs>

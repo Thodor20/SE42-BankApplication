@@ -28,6 +28,8 @@ import nl.fontys.util.Money;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Item implements Comparable, Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue
     private Long id;

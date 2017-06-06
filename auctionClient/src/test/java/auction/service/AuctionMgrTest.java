@@ -14,12 +14,12 @@ import org.junit.Test;
 
 public class AuctionMgrTest {
 
-    private final Registration_Service registrationService = new Registration_Service();
-    private final Auction_Service auctionService = new Auction_Service();
+    private final Registration_Service REGISTRATIONSERVICE = new Registration_Service();
+    private final Auction_Service AUCTIONSERVICE = new Auction_Service();
 
     @Before
     public void setUp() throws Exception {
-        auctionService.getAuctionPort().cleanDatabase();
+        AUCTIONSERVICE.getAuctionPort().cleanDatabase();
     }
 
     @Test
@@ -28,11 +28,11 @@ public class AuctionMgrTest {
         String email = "xx2@nl";
         String omsch = "omsch";
 
-        User seller1 = registrationService.getRegistrationPort().register(email);
+        User seller1 = REGISTRATIONSERVICE.getRegistrationPort().register(email);
         Category cat = new Category();
         cat.setDescription("cat2");
-        Item item1 = auctionService.getAuctionPort().createItem(seller1, cat, omsch);
-        Item item2 = auctionService.getAuctionPort().getItemById(item1.getId());
+        Item item1 = AUCTIONSERVICE.getAuctionPort().createItem(seller1, cat, omsch);
+        Item item2 = AUCTIONSERVICE.getAuctionPort().getItemById(item1.getId());
 
         assertEquals(omsch, item2.getDescription());
         assertEquals(email, item2.getSeller().getEmail());
@@ -45,17 +45,17 @@ public class AuctionMgrTest {
         String email4 = "xx4@nl";
         String omsch2 = "omsch2";
 
-        User seller3 = registrationService.getRegistrationPort().register(email3);
-        User seller4 = registrationService.getRegistrationPort().register(email4);
+        User seller3 = REGISTRATIONSERVICE.getRegistrationPort().register(email3);
+        User seller4 = REGISTRATIONSERVICE.getRegistrationPort().register(email4);
         Category cat = new Category();
         cat.setDescription("cat3");
-        Item item1 = auctionService.getAuctionPort().createItem(seller3, cat, omsch);
-        Item item2 = auctionService.getAuctionPort().createItem(seller4, cat, omsch);
+        Item item1 = AUCTIONSERVICE.getAuctionPort().createItem(seller3, cat, omsch);
+        Item item2 = AUCTIONSERVICE.getAuctionPort().createItem(seller4, cat, omsch);
 
-        List<Item> res = auctionService.getAuctionPort().getItemByDescription(omsch2);
+        List<Item> res = AUCTIONSERVICE.getAuctionPort().getItemByDescription(omsch2);
         assertEquals(0, res.size());
 
-        res = auctionService.getAuctionPort().getItemByDescription(omsch);
+        res = AUCTIONSERVICE.getAuctionPort().getItemByDescription(omsch);
         assertEquals(2, res.size());
     }
 
@@ -67,19 +67,19 @@ public class AuctionMgrTest {
         String emailb2 = "bb2@nl";
         String omsch = "omsch_bb";
 
-        User seller = registrationService.getRegistrationPort().register(email);
-        User buyer = registrationService.getRegistrationPort().register(emailb);
-        User buyer2 = registrationService.getRegistrationPort().register(emailb2);
+        User seller = REGISTRATIONSERVICE.getRegistrationPort().register(email);
+        User buyer = REGISTRATIONSERVICE.getRegistrationPort().register(emailb);
+        User buyer2 = REGISTRATIONSERVICE.getRegistrationPort().register(emailb2);
         // eerste bod
         Category cat = new Category();
         cat.setDescription("cat9");
-        Item item1 = auctionService.getAuctionPort().createItem(seller, cat, omsch);
+        Item item1 = AUCTIONSERVICE.getAuctionPort().createItem(seller, cat, omsch);
         
         Money money = new Money();
         money.setCents(10);
         money.setCurrency("eur");
 
-        Bid new1 = auctionService.getAuctionPort().createBid(item1, buyer, money);
+        Bid new1 = AUCTIONSERVICE.getAuctionPort().createBid(item1, buyer, money);
         assertEquals(emailb, new1.getBuyer().getEmail());
 
         // lager bod
@@ -87,7 +87,7 @@ public class AuctionMgrTest {
         money.setCents(9);
         money.setCurrency("eur");
         
-        Bid new2 = auctionService.getAuctionPort().createBid(item1, buyer2, money2);
+        Bid new2 = AUCTIONSERVICE.getAuctionPort().createBid(item1, buyer2, money2);
         System.out.println(new2.getBuyer().getEmail());
         //Kan niet verklaren waarom deze niet null is
         //assertNull(new2);
@@ -97,7 +97,7 @@ public class AuctionMgrTest {
         money.setCents(11);
         money.setCurrency("eur");
 
-        Bid new3 = auctionService.getAuctionPort().createBid(item1, buyer2, money3);
+        Bid new3 = AUCTIONSERVICE.getAuctionPort().createBid(item1, buyer2, money3);
         assertEquals(emailb2, new3.getBuyer().getEmail());
     }
 }

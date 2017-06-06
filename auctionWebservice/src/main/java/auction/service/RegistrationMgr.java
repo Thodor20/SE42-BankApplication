@@ -36,7 +36,8 @@ public class RegistrationMgr {
         if (user != null) {
             return user;
         }
-        user = new User(email);
+       user = new User();
+       user.setEmail(email);
         userDAO.create(user);
         return user;
     }

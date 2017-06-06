@@ -17,7 +17,11 @@ import javax.jws.WebService;
 @WebService(serviceName = "Registration")
 public class Registration {
 
-    private final RegistrationMgr registrationMgr = new RegistrationMgr();
+    private final RegistrationMgr registrationMgr;
+    
+    public Registration(){
+        registrationMgr = new RegistrationMgr();
+    }
 
     @WebMethod(operationName = "Register")
     public User registerUser(String email) {

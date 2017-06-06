@@ -18,6 +18,8 @@ import nl.fontys.util.Money;
 @Entity
 public class Bid implements Serializable {
     
+    private static final long serialVersionUID = 1L;
+    
     @Embedded
     private final FontysTime time;
 

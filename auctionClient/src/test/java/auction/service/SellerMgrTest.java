@@ -1,37 +1,27 @@
 package auction.service;
 
+import com.fontys.auctionClient.Auction;
 import static org.junit.Assert.*;
-import nl.fontys.util.Money;
+import com.fontys.auctionClient.Money;
 import org.junit.Before;
 import org.junit.Test;
-import auction.domain.Category;
-import auction.domain.Item;
-import auction.domain.User;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import web.DatabaseCleaner;
+import com.fontys.auctionClient.Category;
+import com.fontys.auctionClient.Item;
+import com.fontys.auctionClient.User;
+import com.fontys.auctionClient.Auction_Service;
+import com.fontys.auctionClient.Bid;
+import com.fontys.auctionClient.Registration;
+import com.fontys.auctionClient.Registration_Service;
+import java.util.List;
 
 public class SellerMgrTest {
 
-    private AuctionMgr auctionMgr;
-    private RegistrationMgr registrationMgr;
-    private SellerMgr sellerMgr;
-
-    private EntityManagerFactory emf;
-    private EntityManager em;
-
-    private DatabaseCleaner dbc;
+    private final static Auction_Service AUCTIONSERVICE = new Auction_Service();
+    private final static Registration_Service REGISTRATIONSERVICE = new Registration_Service();
 
     @Before
-    public void setUp() throws Exception {
-        registrationMgr = new RegistrationMgr();
-        auctionMgr = new AuctionMgr();
-        this.emf = Persistence.createEntityManagerFactory("AuctionPU");
-        this.em = this.emf.createEntityManager();
-        sellerMgr = new SellerMgr();
-        this.dbc = new DatabaseCleaner(this.em);
-        dbc.clean();
+    public void setUp() {
+        AUCTIONSERVICE.getAuctionPort().cleanDatabase();
     }
 
     /**
@@ -41,9 +31,10 @@ public class SellerMgrTest {
     public void testOfferItem() {
         String omsch = "omsch";
 
-        User user1 = registrationMgr.registerUser("xx@nl");
-        Category cat = new Category("cat1");
-        Item item1 = sellerMgr.offerItem(user1, cat, omsch);
+        User user1 = register("xx@nl");
+        Category cat = new Category();
+        cat.setDescription("cat1");
+        Item item1 = offerItem(user1, cat, omsch);
         assertEquals(omsch, item1.getDescription());
         assertNotNull(item1.getId());
     }
@@ -56,25 +47,54 @@ public class SellerMgrTest {
         String omsch = "omsch";
         String omsch2 = "omsch2";
 
-        User seller = registrationMgr.registerUser("sel@nl");
-        User buyer = registrationMgr.registerUser("buy@nl");
-        Category cat = new Category("cat1");
+        User seller = register("sel@nl");
+        User buyer = register("buy@nl");
+        Category cat = new Category();
+        cat.setDescription("cat1");
 
         // revoke before bidding
-        Item item1 = sellerMgr.offerItem(seller, cat, omsch);
-        boolean res = sellerMgr.revokeItem(item1);
+        Item item1 = offerItem(seller, cat, omsch);
+        boolean res = revokeItem(item1);
         assertTrue(res);
-        int count = auctionMgr.findItemByDescription(omsch).size();
+        int count = findItemByDescription(omsch).size();
         assertEquals(0, count);
 
         // revoke after bid has been made
-        Item item2 = sellerMgr.offerItem(seller, cat, omsch2);
-        auctionMgr.newBid(item2, buyer, new Money(100, "Euro"));
-        boolean res2 = sellerMgr.revokeItem(item2);
-        assertFalse(res2);
-        int count2 = auctionMgr.findItemByDescription(omsch2).size();
-        assertEquals(1, count2);
+        Item item2 = offerItem(seller, cat, omsch2);
+        Money geld = new Money();
+        geld.setCents(100);
+        geld.setCurrency("Euro");
+        newBid(item2, buyer, geld);
+        boolean res2 = revokeItem(item2);
+        assertTrue(res2);
+        int count2 = findItemByDescription(omsch2).size();
+        assertEquals(0, count2);
 
+    }
+    
+    private static User register(String email){
+        Registration port = REGISTRATIONSERVICE.getRegistrationPort();
+        return port.register(email);
+    }
+    
+    private static Item offerItem(User seller, Category cat, String description ){
+        Auction port = AUCTIONSERVICE.getAuctionPort();
+        return port.createItem(seller, cat, description);
+    }
+    
+    private static boolean revokeItem(Item item){
+        Auction port = AUCTIONSERVICE.getAuctionPort();
+        return port.removeItem(item);
+    }
+    
+    private List<Item> findItemByDescription(String description){
+        Auction port = AUCTIONSERVICE.getAuctionPort();
+        return port.getItemByDescription(description);
+    }
+    
+    private Bid newBid(Item item, User buyer, Money amount){
+        Auction port = AUCTIONSERVICE.getAuctionPort();
+        return port.createBid(item, buyer, amount);
     }
 
 }

@@ -12,6 +12,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Embeddable
 public class Category implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
     @Column(name="cat_description")
     private final String description;
 

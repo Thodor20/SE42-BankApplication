@@ -16,12 +16,6 @@
 <message name="createBidResponse">
 <part name="parameters" element="tns:createBidResponse"></part>
 </message>
-<message name="cleanDatabase">
-<part name="parameters" element="tns:cleanDatabase"></part>
-</message>
-<message name="cleanDatabaseResponse">
-<part name="parameters" element="tns:cleanDatabaseResponse"></part>
-</message>
 <message name="createItem">
 <part name="parameters" element="tns:createItem"></part>
 </message>
@@ -33,6 +27,12 @@
 </message>
 <message name="removeItemResponse">
 <part name="parameters" element="tns:removeItemResponse"></part>
+</message>
+<message name="cleanDatabase">
+<part name="parameters" element="tns:cleanDatabase"></part>
+</message>
+<message name="cleanDatabaseResponse">
+<part name="parameters" element="tns:cleanDatabaseResponse"></part>
 </message>
 <message name="getItemByDescription">
 <part name="parameters" element="tns:getItemByDescription"></part>
@@ -49,10 +49,6 @@
 <input wsam:Action="http://web/Auction/createBidRequest" message="tns:createBid"></input>
 <output wsam:Action="http://web/Auction/createBidResponse" message="tns:createBidResponse"></output>
 </operation>
-<operation name="cleanDatabase">
-<input wsam:Action="http://web/Auction/cleanDatabaseRequest" message="tns:cleanDatabase"></input>
-<output wsam:Action="http://web/Auction/cleanDatabaseResponse" message="tns:cleanDatabaseResponse"></output>
-</operation>
 <operation name="createItem">
 <input wsam:Action="http://web/Auction/createItemRequest" message="tns:createItem"></input>
 <output wsam:Action="http://web/Auction/createItemResponse" message="tns:createItemResponse"></output>
@@ -60,6 +56,10 @@
 <operation name="removeItem">
 <input wsam:Action="http://web/Auction/removeItemRequest" message="tns:removeItem"></input>
 <output wsam:Action="http://web/Auction/removeItemResponse" message="tns:removeItemResponse"></output>
+</operation>
+<operation name="cleanDatabase">
+<input wsam:Action="http://web/Auction/cleanDatabaseRequest" message="tns:cleanDatabase"></input>
+<output wsam:Action="http://web/Auction/cleanDatabaseResponse" message="tns:cleanDatabaseResponse"></output>
 </operation>
 <operation name="getItemByDescription">
 <input wsam:Action="http://web/Auction/getItemByDescriptionRequest" message="tns:getItemByDescription"></input>
@@ -86,15 +86,6 @@
 <soap:body use="literal"></soap:body>
 </output>
 </operation>
-<operation name="cleanDatabase">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal"></soap:body>
-</input>
-<output>
-<soap:body use="literal"></soap:body>
-</output>
-</operation>
 <operation name="createItem">
 <soap:operation soapAction=""></soap:operation>
 <input>
@@ -105,6 +96,15 @@
 </output>
 </operation>
 <operation name="removeItem">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="cleanDatabase">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal"></soap:body>
