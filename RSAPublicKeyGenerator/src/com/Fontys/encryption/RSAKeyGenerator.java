@@ -33,7 +33,7 @@ public class RSAKeyGenerator {
             
             FileControl.writeKey("C:\\users\\thomv\\Desktop\\private.key", prv);
             FileControl.writeKey("C:\\users\\thomv\\Desktop\\public.key", pub);
-        } catch (NoSuchAlgorithmException | IOException ex) {
+        } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(RSAKeyGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -5,8 +5,8 @@
  */
 package com.Fontys.encryption;
 
+//<editor-fold defaultstate="collapsed" desc="Imports">
 import com.Fontys.util.FileControl;
-import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -16,6 +16,7 @@ import java.security.Signature;
 import java.security.SignatureException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+//</editor-fold>
 
 /**
  *
@@ -44,7 +45,7 @@ public class SigningController {
      */
     public KeyPair generateKeyPair() {
         try {
-            System.out.println("Generating public/private key");
+            System.out.println("Generating public/private key ...");
             KeyPairGenerator keygen = KeyPairGenerator.getInstance(ALGORITHM);
             keygen.initialize(KEYSIZE);
             return keygen.generateKeyPair();

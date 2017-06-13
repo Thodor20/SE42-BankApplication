@@ -32,7 +32,7 @@ public class Command {
      */
     Command(String input, String delimeter, ConversionType type) throws IllegalArgumentException {
         // Split the string on every space
-        String[] words = input.split(" ");
+        String[] words = input.split(delimeter);
 
         // In case there are no words found, throw the exception
         if (words.length < 1) {

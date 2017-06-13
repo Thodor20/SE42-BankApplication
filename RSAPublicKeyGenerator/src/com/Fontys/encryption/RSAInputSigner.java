@@ -36,7 +36,7 @@ public class RSAInputSigner {
             sig.update(inputBytes);
 
             FileControl.writeKey("C:\\users\\thomv\\Desktop\\input(SignedBy" + signer + ").txt", sig.sign());
-        } catch (NoSuchAlgorithmException | IOException | InvalidKeySpecException | InvalidKeyException | SignatureException ex) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | SignatureException ex) {
             Logger.getLogger(RSAInputSigner.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

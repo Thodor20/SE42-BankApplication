@@ -7,6 +7,7 @@ package com.Fontys.main;
 
 //<editor-fold defaultstate="collapsed" desc="Imports">
 import com.Fontys.encryption.*;
+import com.Fontys.util.FileControl;
 import com.Thom.commands.Command;
 import com.Thom.commands.CommandBuilder;
 import com.Thom.commands.ConversionType;
@@ -40,17 +41,24 @@ public class RSAPublicKeyGenerator {
                     if (cmd.hasRequiredArguments(1, false)) {
                         KeyPair pair = controller.generateKeyPair();
 
-                        //FileControl.writeKey(filename, encodedKey);
+                        boolean prv = FileControl.writeKey(cmd.getArguments().get(0) + "private.key", pair.getPrivate().getEncoded());
+                        boolean pub = FileControl.writeKey(cmd.getArguments().get(0) + "public.key", pair.getPublic().getEncoded());
+
+                        if (prv && pub) {
+                            System.out.println("Both private and public key have been generated successfully!");
+                        } else {
+                            System.out.println("Failure when writing private and public keys!");
+                        }
                     } else {
                         System.out.println("Wrong amount of parameters for command. Required 1:");
                         System.out.println(" - Folder: path defining where the private and public key will be stored");
                     }
                     break;
                 case "signInputFile":
-                    
+
                     break;
                 case "readSignedFile":
-                    
+
                     break;
                 case "exit":
                     isRunning = false;

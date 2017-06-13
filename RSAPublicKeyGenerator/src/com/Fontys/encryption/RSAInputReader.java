@@ -36,7 +36,7 @@ public class RSAInputReader {
             sig.initVerify(pub);
             sig.update(inputBytes);
             return sig.verify(inputBytes);
-        } catch (NoSuchAlgorithmException | IOException | InvalidKeySpecException | SignatureException | InvalidKeyException ex) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException | SignatureException | InvalidKeyException ex) {
             Logger.getLogger(RSAInputReader.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
