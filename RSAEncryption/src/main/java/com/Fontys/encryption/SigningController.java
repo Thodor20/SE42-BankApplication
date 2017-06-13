@@ -12,6 +12,7 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
 import java.util.logging.Level;
@@ -26,19 +27,10 @@ public class SigningController {
 
     private static final Logger LOGGER = Logger.getLogger(SigningController.class.getName());
 
-    private static final String ALGORITHM = "RSA";
-    private static final String SIGNATURE = "SHA1withRSA";
-    private static final int KEYSIZE = 1024;
-    
-    private final FileControl fileController;
+    public final String ALGORITHM = "RSA";
+    public final String SIGNATURE = "SHA1withRSA";
+    public final int KEYSIZE = 1024;
 
-    /**
-     * 
-     */
-    public SigningController() {
-        fileController = new FileControl();
-    }
-    
     /**
      *
      * @return
@@ -62,7 +54,7 @@ public class SigningController {
      * @return
      */
     public byte[] sign(PrivateKey priv, byte[] input) {
-        try { 
+        try {
             Signature sign = Signature.getInstance(SIGNATURE);
             sign.initSign(priv);
             sign.update(input);
@@ -70,6 +62,25 @@ public class SigningController {
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             return null;
+        }
+    }
+
+    /**
+     *
+     * @param pub
+     * @param input
+     * @param signed
+     * @return
+     */
+    public boolean verify(PublicKey pub, byte[] input, byte[] signed) {
+        try {
+            Signature sign = Signature.getInstance(SIGNATURE);
+            sign.initVerify(pub);
+            sign.update(input);
+            return sign.verify(signed);
+        } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException ex) {
+            Logger.getLogger(SigningController.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
 

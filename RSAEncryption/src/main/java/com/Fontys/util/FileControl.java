@@ -23,14 +23,14 @@ import java.util.logging.Logger;
 public class FileControl {
 
     private static final Logger LOGGER = Logger.getLogger(FileControl.class.getName());
-    
+
     /**
      *
      * @param filename
      * @param encodedKey
-     * @return 
+     * @return
      */
-    public static boolean writeKey(String filename, byte[] encodedKey){
+    public static boolean writeKey(String filename, byte[] encodedKey) {
         try (FileOutputStream fos = new FileOutputStream(filename)) {
             fos.write(encodedKey);
             return true;
@@ -48,9 +48,9 @@ public class FileControl {
     public static byte[] readKey(String filename) {
         File f = new File(filename);
 
-        try (DataInputStream dis = new DataInputStream(new FileInputStream(f))) {
+        try (FileInputStream fis = new FileInputStream(f)) {
             byte[] keyBytes = new byte[(int) f.length()];
-            dis.readFully(keyBytes);
+            fis.read(keyBytes);
             return keyBytes;
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
