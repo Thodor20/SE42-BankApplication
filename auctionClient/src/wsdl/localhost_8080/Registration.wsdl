@@ -4,31 +4,31 @@
 <xsd:import namespace="http://web/" schemaLocation="http://localhost:8080/Registration?xsd=1"></xsd:import>
 </xsd:schema>
 </types>
-<message name="Register">
-<part name="parameters" element="tns:Register"></part>
-</message>
-<message name="RegisterResponse">
-<part name="parameters" element="tns:RegisterResponse"></part>
-</message>
 <message name="GetUser">
 <part name="parameters" element="tns:GetUser"></part>
 </message>
 <message name="GetUserResponse">
 <part name="parameters" element="tns:GetUserResponse"></part>
 </message>
+<message name="Register">
+<part name="parameters" element="tns:Register"></part>
+</message>
+<message name="RegisterResponse">
+<part name="parameters" element="tns:RegisterResponse"></part>
+</message>
 <portType name="Registration">
-<operation name="Register">
-<input wsam:Action="http://web/Registration/RegisterRequest" message="tns:Register"></input>
-<output wsam:Action="http://web/Registration/RegisterResponse" message="tns:RegisterResponse"></output>
-</operation>
 <operation name="GetUser">
 <input wsam:Action="http://web/Registration/GetUserRequest" message="tns:GetUser"></input>
 <output wsam:Action="http://web/Registration/GetUserResponse" message="tns:GetUserResponse"></output>
 </operation>
+<operation name="Register">
+<input wsam:Action="http://web/Registration/RegisterRequest" message="tns:Register"></input>
+<output wsam:Action="http://web/Registration/RegisterResponse" message="tns:RegisterResponse"></output>
+</operation>
 </portType>
 <binding name="RegistrationPortBinding" type="tns:Registration">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"></soap:binding>
-<operation name="Register">
+<operation name="GetUser">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal"></soap:body>
@@ -37,7 +37,7 @@
 <soap:body use="literal"></soap:body>
 </output>
 </operation>
-<operation name="GetUser">
+<operation name="Register">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal"></soap:body>
