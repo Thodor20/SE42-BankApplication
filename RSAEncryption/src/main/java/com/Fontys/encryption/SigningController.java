@@ -6,7 +6,6 @@
 package com.Fontys.encryption;
 
 //<editor-fold defaultstate="collapsed" desc="Imports">
-import com.Fontys.util.FileControl;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;

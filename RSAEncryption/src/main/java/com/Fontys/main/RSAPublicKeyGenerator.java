@@ -19,12 +19,9 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.util.Pair;
 //</editor-fold>
 
 /**
@@ -37,6 +34,7 @@ public class RSAPublicKeyGenerator {
     private static final SigningController controller = new SigningController();
 
     /**
+     *
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -118,28 +116,6 @@ public class RSAPublicKeyGenerator {
             }
         }
 
-    }
-
-    /**
-     *
-     * @param args
-     * @return
-     */
-    public static Pair<String, List<String>> extractCommandArgument(String[] args) {
-        if (args.length > 0) {
-            String command = args[0];
-            List<String> arguments = new ArrayList<>();
-
-            if (args.length > 1) {
-                for (int i = 1; i < args.length; i++) {
-                    arguments.add(args[i]);
-                }
-            }
-
-            return new Pair<>(command, arguments);
-        }
-
-        return null;
     }
 
 }
