@@ -48,7 +48,7 @@ public class Command {
         // arguments and add them to the list
         if (words.length > 1) {
             for (int i = 1; i < words.length; i++) {
-                arguments.add(type == ConversionType.ALL || type == ConversionType.ARGS_ONLY ? words[i].toLowerCase() : words[0]);
+                arguments.add(type == ConversionType.ALL || type == ConversionType.ARGS_ONLY ? words[i].toLowerCase() : words[i]);
             }
         }
     }
