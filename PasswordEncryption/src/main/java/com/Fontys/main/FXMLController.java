@@ -1,8 +1,12 @@
-package com.fontys.passwordencryption;
+package com.Fontys.main;
 
+import com.Fontys.util.FileControl;
 import java.io.File;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -12,34 +16,27 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class FXMLController implements Initializable {
-    
-    private final Crypter crypter = new Crypter();
-    private final FileControl fileControl = new FileControl();
-    
+
+    private Crypter crypter;
+
     @FXML
     private Label laSecret;
-    
     @FXML
     private PasswordField pfPassword;
-    
     @FXML
     private TextField tfMessage;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        try {
+            crypter = new Crypter();
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
     @FXML
     private void encryptMessage_Click() {
-        encryptMessage();
-    }
-    
-    @FXML
-    private void decryptMessage_Click() {
-        laSecret.setText(decryptMessage());
-    }
-    
-    private void encryptMessage() {
         FileChooser fileChooser = new FileChooser();
 
         //Set extension filter
@@ -48,17 +45,18 @@ public class FXMLController implements Initializable {
 
         //Show save file dialog
         File file = fileChooser.showSaveDialog(new Stage());
-        
+
         if (file != null) {
-            byte[] encryptedMessage = crypter.encryptData(tfMessage.getText(),pfPassword.getText().toCharArray());
-            fileControl.writeData(file.getPath(), encryptedMessage);
+            EncryptionData data = crypter.encryptData(pfPassword.getText(), tfMessage.getText());
+            FileControl.writeData("C:\\Users\\thomv\\Desktop\\file.txt", data);
         }
+
         tfMessage.setText("");
         pfPassword.setText("");
-        
     }
-    
-    private String decryptMessage(){
+
+    @FXML
+    private void decryptMessage_Click() {
         FileChooser fileChooser = new FileChooser();
 
         //Set extension filter
@@ -67,18 +65,16 @@ public class FXMLController implements Initializable {
 
         //Show save file dialog
         File file = fileChooser.showOpenDialog(new Stage());
-        
+
         if (file != null) {
-            
-           byte[] data = fileControl.readData(file);
-           
-           byte[] decrypted = crypter.decryptData(data, pfPassword.getText().toCharArray());
-           pfPassword.setText("");
-           
-           return new String(decrypted);
-           
+            EncryptionData data = FileControl.readData("C:\\Users\\thomv\\Desktop\\file.txt");
+            String message = crypter.decryptData(data);
+            if (message != null) {
+                laSecret.setText(message);
+            } else {
+                System.out.println("Failed descrypting message");
+            }
         }
-        
-        return null;
     }
+
 }
