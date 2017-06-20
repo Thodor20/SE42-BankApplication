@@ -1,8 +1,6 @@
-package com.fontys.main;
+package com.fontys.passwordencryption;
 
 import com.Fontys.main.Crypter;
-import com.fontys.passwordencryption.FileControl;
-import com.fontys.passwordencryption.MessageData;
 import java.io.File;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;

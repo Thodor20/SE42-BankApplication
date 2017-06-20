@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.Fontys.main;
+package com.sander.encryptpassword;
 
-import com.fontys.passwordencryption.MessageData;
 import java.io.UnsupportedEncodingException;
 import java.security.AlgorithmParameters;
 import java.security.InvalidAlgorithmParameterException;
@@ -78,11 +77,9 @@ public class Crypter {
 
     public String decryptData(char [] password, MessageData data) {
         
-        byte[] salt = generateSalt();
-        
         try {
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            KeySpec spec = new PBEKeySpec(password, salt, 65536, 128);
+            KeySpec spec = new PBEKeySpec(password, data.getSalt(), 65536, 128);
             password = null;
             SecretKey tmp = factory.generateSecret(spec);
             SecretKey secret = new SecretKeySpec(tmp.getEncoded(), "AES");

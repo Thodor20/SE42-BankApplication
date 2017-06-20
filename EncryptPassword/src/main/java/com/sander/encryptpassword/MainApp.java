@@ -1,7 +1,5 @@
-package com.Fontys.main;
+package com.sander.encryptpassword;
 
-
-import com.fontys.passwordencryption.*;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +12,8 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Scene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Scene_1.fxml"));
+        
         loader.setController(new FXMLController());
         
         Parent root = loader.load();
