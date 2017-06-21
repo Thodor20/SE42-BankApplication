@@ -69,7 +69,7 @@ public class FXMLController implements Initializable {
         File file = fileChooser.showSaveDialog(new Stage());
 
         if (file != null) {
-            MessageData data = crypter.encryptData(tfMessage.getText().toCharArray(), pfPassword.getText());
+            MessageData data = crypter.encryptData(pfPassword.getText().toCharArray(), tfMessage.getText());
             FileControl.writeData(file.getPath(), data);
         }
 
